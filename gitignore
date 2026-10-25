@@ -1,0 +1,19 @@
+# Data and vocabulary files (not published)
+raw/
+vocab/
+export/
+results/
+filtered/
+
+# Data formats
+*.csv
+*.sas7bdat
+*.sas7bndx
+*.xlsx
+*.pbix
+
+# SAS and system files
+*.log
+*.lst
+.DS_Store
+__pycache__/
