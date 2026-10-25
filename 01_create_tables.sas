@@ -1,3 +1,16 @@
+/*******************************************************************************
+* Project: OMOP CDM v5.4 Synthea Migration & Analytics
+* Script:  01_create_tables.sas
+* Purpose: Create empty OMOP CDM v5.4 tables in the CDM library.
+*          Core clinical tables: person, visit_occurrence, condition_occurrence,
+*          drug_exposure. Health-system tables: provider, care_site.
+*          Observation window: observation_period. Deaths: death.
+* Note:    Re-running this script EMPTIES every table it creates. Re-run the
+*          transform scripts (03-06) afterwards.
+********************************************************************************/
+
+%let project_path = /home/u63767888/omop_project;
+%include "&project_path/scripts/00_setup_libraries.sas";
 
 proc sql;
     /* 1. PERSON */
@@ -88,5 +101,52 @@ proc sql;
         drug_source_concept_id       num,
         route_source_value           char(50),
         dose_unit_source_value       char(50)
+    );
+
+    /* 5. PROVIDER (Synthea providers.csv) */
+    create table cdm.provider (
+        provider_id                   num,
+        provider_name                 char(255),
+        npi                           char(20),
+        dea                           char(20),
+        specialty_concept_id          num,
+        care_site_id                  num,
+        year_of_birth                 num,
+        gender_concept_id             num,
+        provider_source_value         char(50),
+        specialty_source_value        char(50),
+        specialty_source_concept_id   num,
+        gender_source_value           char(50),
+        gender_source_concept_id      num
+    );
+
+    /* 6. CARE_SITE (Synthea organizations.csv) */
+    create table cdm.care_site (
+        care_site_id                  num,
+        care_site_name                char(255),
+        place_of_service_concept_id   num,
+        location_id                   num,
+        care_site_source_value        char(50),
+        place_of_service_source_value char(50)
+    );
+
+    /* 7. OBSERVATION_PERIOD (follow-up window per person) */
+    create table cdm.observation_period (
+        observation_period_id         num,
+        person_id                     num,
+        observation_period_start_date num format=date9.,
+        observation_period_end_date   num format=date9.,
+        period_type_concept_id        num
+    );
+
+    /* 8. DEATH (Synthea patients.csv DEATHDATE; no cause of death is recorded) */
+    create table cdm.death (
+        person_id                     num,
+        death_date                    num format=date9.,
+        death_datetime                num format=datetime20.,
+        death_type_concept_id         num,
+        cause_concept_id              num,
+        cause_source_value            char(50),
+        cause_source_concept_id       num
     );
 quit;
