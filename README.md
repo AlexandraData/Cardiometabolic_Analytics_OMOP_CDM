@@ -7,7 +7,7 @@ The project has two parts:
 1. **Cohort analysis (SAS).** Converts **Synthea synthetic patient records** (1,163 patients) into the **OMOP CDM v5.4**, defines a cardiometabolic cohort and analyses treatment initiation and healthcare use.
 2. **Patient segmentation (Python).** Groups the cohort into clinical segments with **k-means clustering**, using age and comorbidities, and profiles how treatment and visits differ between segments.
 
-The results of both parts are shown in a four-page **Power BI** dashboard (Overview, Cohort detail, Type 2 diabetes, Segments). All data is synthetic; no real patient information is used.
+The results of both parts are shown in a two-page **Power BI** dashboard (Overview, Cohort detail, Type 2 diabetes, Segments). All data is synthetic; no real patient information is used.
 
 ## Repository structure
 
